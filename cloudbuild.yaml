@@ -1,0 +1,21 @@
+steps:
+
+- id: 'Instalando sum, aguarde...'
+  name: 'gcr.io/cloud-builders/go'
+  args: ['install', 'sum']
+  env: ['GOPATH=.']
+
+- id: 'Executando teste SUM...'
+  name: 'gcr.io/cloud-builders/go'
+  args: ['test', '-v','./...']
+  env: ['GOPATH=.']
+
+- id: 'Fazendo o Push Cloud Registry...'
+  name: 'gcr.io/cloud-builders/docker'
+  args:
+    - 'build'
+    - '-t'
+    - 'gcr.io/$PROJECT_ID/sum:latest'
+    - '.'
+
+images: ['gcr.io/$PROJECT_ID/sum:latest']
